@@ -3,13 +3,15 @@ program fpcp;
 
 type
   // returns > 0 if akey > bkey, 0 if akey = bkey, < 0 if akey < bkey
-  TCompare = function(akey: Pointer; bkey: Pointer): LongInt;
+  TCompare = function(akey: Pointer; bkey: Pointer): Integer;
   TArrayOfSizeInt = array of SizeInt;  
 
 // Compare function for testing
-function Compare(akey: Pointer; bkey: Pointer): LongInt;
+function Compare(akey: Pointer; bkey: Pointer): Integer;
 begin
-  Result := PLongInt(akey)^ - PLongInt(bkey)^
+  if PLongInt(akey)^ < PLongInt(bkey)^ then Result := -1
+  else if PLongInt(akey)^ = PLongInt(bkey)^ then Result := 0
+  else Result := 1;
 end;
  
 function BisectLeft(key: Pointer; base: Pointer; num: SizeInt; size: SizeInt; comp: TCompare): SizeInt;
@@ -21,10 +23,23 @@ begin
   while l < h do
   begin
     m := l + (h-l) div 2;
-    if comp(base+m*size, key) < 0 then
-      l := m + 1
-    else
-      h := m
+    if comp(base+m*size, key) < 0 then l := m + 1
+    else h := m;
+  end;
+  Result := l;
+end;
+
+function BisectRight(key: Pointer; base: Pointer; num: SizeInt; size: SizeInt; comp: TCompare): SizeInt;
+var
+  l, h, m: SizeInt;
+begin
+  l := 0;
+  h := num;
+  while l < h do
+  begin
+    m := l + (h-l) div 2;
+    if comp(key, base+m*size) < 0 then h := m
+    else l := m + 1;
   end;
   Result := l
 end;
@@ -134,7 +149,9 @@ begin
   begin
     t := i*i;
     pos := BisectLeft(@t, @arr[0], Length(arr), SizeOf(LongInt), Compare);
-    WriteLn('Key - ', t, ', Pos - ', pos, ', arr - ', arr[i]);
+    WriteLn('Key - ', t, ', Left Pos - ', pos, ', arr - ', arr[i]);
+    pos := BisectRight(@t, @arr[0], Length(arr), SizeOf(LongInt), Compare);
+    WriteLn('Key - ', t, ', Right Pos - ', pos, ', arr - ', arr[i]);
   end;
   
   lpf := LPFSieve(1000000);
