@@ -4,7 +4,7 @@
 Aim - create library of short, reusable algorithms and data structures for competitive programming.
 
 ### Data structures
-#### Union Find
+1. Union Find
 ### Prime numbers
-#### Least prime factor linear sieve
+1. Least prime factor linear sieve
 
