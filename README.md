@@ -2,3 +2,9 @@
 [![Build Status](https://travis-ci.org/JulStrat/fp-cp.svg?branch=master)](https://travis-ci.org/JulStrat/fp-cp)
 
 Aim - create library of short, reusable algorithms and data structures for competitive programming.
+
+### Data structures
+#### Union Find
+### Prime numbers
+#### Least prime factor linear sieve
+
