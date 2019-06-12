@@ -44,6 +44,25 @@ begin
   Result := l
 end;
 
+(* Euler's totient sieve *)
+function SieveTotient(n: SizeInt): TArrayOfSizeInt;
+var
+  i, j: SizeInt;
+  phi: TArrayOfSizeInt;
+begin
+  SetLength(phi, n+1);
+  for i := 0 to n do phi[i] := i;
+  for i := 2 to n do 
+  begin
+    if phi[i] = i then 
+    begin
+      Dec(phi[i]); j := 2*i;
+      while j <= n do begin phi[j] := (phi[j] div i)*(i-1); Inc(j, i); end;
+    end;
+  end;
+  Result := phi;
+end;
+
 (* Least prime factor linear sieve *)
 function LPFSieve(n: SizeInt): TArrayOfSizeInt;
 var 
@@ -158,7 +177,11 @@ begin
   WriteLn(lpf[17]);
   WriteLn(lpf[31]);
   WriteLn(lpf[41]);
+  SetLength(lpf, 0);
   
+ 	phi := SieveTotient(10000000);
+	for i := 0 to 30 do WriteLn(i, ' - ', phi[i]);
+  SetLength(phi, 0);
 
   uf := TUnionFindCrossed.Create(1000000);
   uf.Union(0, 1);
