@@ -159,6 +159,7 @@ var
   pos: SizeInt;
   
   lpf: TArrayOfSizeInt;
+  phi: TArrayOfSizeInt;  
   uf: TUnionFindCrossed;
 
 begin
@@ -179,8 +180,8 @@ begin
   WriteLn(lpf[41]);
   SetLength(lpf, 0);
   
- 	phi := SieveTotient(10000000);
-	for i := 0 to 30 do WriteLn(i, ' - ', phi[i]);
+  phi := SieveTotient(10000000);
+  for i := 0 to 30 do WriteLn(i, ' - ', phi[i]);
   SetLength(phi, 0);
 
   uf := TUnionFindCrossed.Create(1000000);
